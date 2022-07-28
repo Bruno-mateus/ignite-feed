@@ -1,33 +1,41 @@
 import { Avatar } from '../Avatar/Avatar';
 import { Comments } from '../Comments/Comments';
 import postStyles from './Post.module.css';
+import { format, formatDistanceToNow } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 
-export function Post() {
+export function Post({ Author, PublishedAt, Content }) {
+  const publishedDateFormatted = format(PublishedAt, "dd 'de' LLLL 'ás' hh':'mm'h'", { locale: ptBR })
+
+  const publishedDateRelativeToNow = formatDistanceToNow(PublishedAt, {
+    locale: ptBR,
+    addSuffix: true
+  })
   return (
     <article className={postStyles.post}>
       <header>
         <div className={postStyles.author}>
-          <Avatar src='https://xesque.rocketseat.dev/users/avatar/profile-85559fce-1ed4-43c0-a678-c2365a338b87-1636412686401.jpg' hasBorder={true} />
+          <Avatar src={Author.avatarUrl} hasBorder={true} />
           <div className={postStyles.authorInfo}>
-            <strong>Bruno Mateus</strong>
-            <span>Web developer</span>
+            <strong>{Author.name}</strong>
+            <span>{Author.role}</span>
           </div>
         </div>
 
-        <time title="21 de Maio as 08:13h" dateTime="2022-05-21 08:13:44">Públicado há 1h</time>
+        <time title={publishedDateFormatted} dateTime={PublishedAt.toISOString()}>{publishedDateRelativeToNow}</time>
       </header>
       <div className={postStyles.content}>
-        <p> Fala galeraa 👋</p>
+        {
+          Content.map(post => {
+            if (post.type === "paragraph") {
+              return <p>{post.content}</p>
+            } else if (post.type === "link") {
+              return <p><a href="#">{post.content}</a></p>
+            }
+          })
+        }
 
-        <p> Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
 
-        <p><a href="#"> jane.design/doctorcare</a></p>
-
-        <p>
-          <a href="#"> #novoprojeto</a>{' '}
-          <a href="#">#nlw</a>
-          <a href="#"> #rocketseat</a>
-        </p>
       </div>
       <form className={postStyles.commentForm}>
         <strong>Deixe seu feedback</strong>
