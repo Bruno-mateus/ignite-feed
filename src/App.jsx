@@ -5,6 +5,8 @@ import { Sidebar } from './components/SIdebar/Sidebar'
 import styles from './App.module.css'
 import './global.css'
 
+
+
 const posts = [
   {
     id: 1,
@@ -50,6 +52,10 @@ const posts = [
   },
 
 ]
+
+
+
+
 function App() {
 
   return (
