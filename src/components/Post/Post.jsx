@@ -16,12 +16,20 @@ export function Post({ Author, PublishedAt, Content }) {
     addSuffix: true
   })
 
-  const [comments, setComments] = useState([1])
+  const [comments, setComments] = useState([])
+
+  const [newCommentText, setNewCommentText] = useState('')
 
   function handleCreateNewComment() {
     event.preventDefault()
 
-    setComments([...comments, comments.length + 1])
+    setComments([...comments, newCommentText])
+    setNewCommentText('')
+
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event.target.value)
   }
 
   return (
@@ -52,14 +60,22 @@ export function Post({ Author, PublishedAt, Content }) {
       </div>
       <form onSubmit={handleCreateNewComment} className={postStyles.commentForm}>
         <strong>Deixe seu feedback</strong>
-        <textarea placeholder="Escreva um comentário..." />
+        <textarea
+          name="comment"
+          value={newCommentText}
+          placeholder="Escreva um comentário..."
+          onChange={handleNewCommentChange}
+        />
         <footer>
           <button type="submit">Comentar</button>
         </footer>
       </form>
       <div className={postStyles.commentList}>
         {
-          comments.map(comment => <Comments />
+          comments.map(comment => {
+
+            return <Comments content={comment} />
+          }
           )
 
         }
