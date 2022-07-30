@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 
 
+
 export function Post({ Author, PublishedAt, Content }) {
   const publishedDateFormatted = format(PublishedAt, "dd 'de' LLLL 'ás' hh':'mm'h'", { locale: ptBR })
 
@@ -49,9 +50,9 @@ export function Post({ Author, PublishedAt, Content }) {
         {
           Content.map(post => {
             if (post.type === "paragraph") {
-              return <p>{post.content}</p>
+              return <p key={post.content}>{post.content}</p>
             } else if (post.type === "link") {
-              return <p><a href="#">{post.content}</a></p>
+              return <p key={post.content} ><a href="#">{post.content}</a></p>
             }
           })
         }
@@ -74,13 +75,13 @@ export function Post({ Author, PublishedAt, Content }) {
         {
           comments.map(comment => {
 
-            return <Comments content={comment} />
+            return <Comments key={comment} content={comment} />
           }
           )
 
         }
 
       </div>
-    </article>
+    </article >
   )
 }
